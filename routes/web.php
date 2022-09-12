@@ -2,7 +2,9 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+// 基本的に毎回読み込む
 use Inertia\Inertia;
+use App\Http\Controllers\InertiaTestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +17,26 @@ use Inertia\Inertia;
 |
 */
 
+Route::get('/inertia-test', function () {
+    return Inertia::render('InertiaTest');
+}
+);
+
+Route::get('/component-test', function () {
+    return Inertia::render('ComponentTest');
+}
+);
+
+Route::get('/inertia/index', [InertiaTestController::class, 'index'])->name('inertia.index');
+Route::get('/inertia/create', [InertiaTestController::class, 'create'])->name('inertia.create');
+Route::post('/inertia', [InertiaTestController::class, 'store'])->name('inertia.store');
+Route::get('/inertia/show/{id}', [InertiaTestController::class, 'show'])->name('inertia.show');
+Route::delete('/inertia/{id}', [InertiaTestController::class, 'delete'])->name('inertia.delete');
+
+
+
 Route::get('/', function () {
+    // inertia::render('第一引数(コンポーネント名)', [連想配列])
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
